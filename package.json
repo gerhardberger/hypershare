@@ -1,0 +1,26 @@
+{
+  "name": "hypershare",
+  "version": "1.0.0",
+  "description": "Share files easily with hyperdrive.",
+  "main": "index.js",
+  "bin": {
+    "hypershare": "bin/cmd.js"
+  },
+  "repository": "https://github.com/gerhardberger/hypershare.git",
+  "author": "@gellerthegyi",
+  "license": "MIT",
+  "devDependencies": {
+    "debug": "^2.6.0",
+    "standard": "^8.6.0"
+  },
+  "dependencies": {
+    "datland-swarm-defaults": "^1.0.2",
+    "discovery-swarm": "^4.2.0",
+    "hyperdrive": "^7.12.2",
+    "level": "^1.5.0",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "path-exists": "^3.0.0",
+    "random-access-file": "^1.4.0"
+  }
+}
