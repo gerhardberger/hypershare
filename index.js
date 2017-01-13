@@ -14,7 +14,9 @@ module.exports = db => {
 
   return {
     share: file => {
-      const archive = drive.createArchive({ file: name => raf(name) })
+      const archive = drive.createArchive({
+        file: name => raf(path.basename(name))
+      })
       archive.append(file)
 
       const link = archive.key.toString('hex')
@@ -29,7 +31,9 @@ module.exports = db => {
       return link
     },
     download: (link, destination) => new Promise((resolve, reject) => {
-      const archive = drive.createArchive(link, { file: name => raf(name) })
+      const archive = drive.createArchive(link, {
+        file: name => raf(path.basename(name))
+      })
       swarm.listen()
       swarm.join(new Buffer(link, 'hex'))
       swarm.on('connection', connection => {
@@ -40,6 +44,9 @@ module.exports = db => {
           if (err) return reject(err)
 
           const stream = archive.createFileReadStream(entry)
+
+          debug(entry)
+
           const filename = path.join(destination, path.basename(entry.name))
           const ws = createWriteStream(filename)
           stream.pipe(ws)
