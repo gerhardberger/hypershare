@@ -4,7 +4,7 @@ const path = require('path')
 const hyperdrive = require('hyperdrive')
 const raf = require('random-access-file')
 const level = require('level')
-const swarmDefaults = require('datland-swarm-defaults')
+const swarmDefaults = require('datland-swarm-defaults')()
 const swarm = require('discovery-swarm')(swarmDefaults)
 
 module.exports = db => {
@@ -14,9 +14,7 @@ module.exports = db => {
 
   return {
     share: file => {
-      const archive = drive.createArchive({
-        file: name => raf(path.basename(name))
-      })
+      const archive = drive.createArchive({ file: name => raf(name) })
       archive.append(file)
 
       const link = archive.key.toString('hex')
