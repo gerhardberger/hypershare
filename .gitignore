@@ -3,3 +3,7 @@ node_modules
 yarn.lock
 
 **/*.db
+
+npm-debug.log
+
+test/downloads

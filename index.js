@@ -13,9 +13,16 @@ module.exports = db => {
   const drive = hyperdrive(db)
 
   return {
-    share: file => {
+    share: files => {
+      if (!Array.isArray(files)) files = [files]
+
       const archive = drive.createArchive({ file: name => raf(name) })
-      archive.append(file)
+
+      for (let file of files) {
+        archive.append(file, () => debug(`${file} was appended!`))
+      }
+
+      archive.finalize()
 
       const link = archive.key.toString('hex')
 
@@ -23,6 +30,7 @@ module.exports = db => {
       swarm.join(new Buffer(link, 'hex'))
       swarm.on('connection', connection => {
         debug('New connection (sharing side)!')
+
         connection.pipe(archive.replicate()).pipe(connection)
       })
 
@@ -30,7 +38,7 @@ module.exports = db => {
     },
     download: (link, destination) => new Promise((resolve, reject) => {
       const archive = drive.createArchive(link, {
-        file: name => raf(path.basename(name))
+        file: name => raf(path.join(destination, path.basename(name)))
       })
       swarm.listen()
       swarm.join(new Buffer(link, 'hex'))
@@ -38,20 +46,25 @@ module.exports = db => {
         debug('New connection (downloading side)!', destination)
         connection.pipe(archive.replicate()).pipe(connection)
 
-        archive.get(0, (err, entry) => {
-          if (err) return reject(err)
+        const rs = archive.list({ live: false })
+        rs.on('data', entry => {
+          debug('New entry:', entry.name)
 
           const stream = archive.createFileReadStream(entry)
-
-          debug(entry)
-
           const filename = path.join(destination, path.basename(entry.name))
           const ws = createWriteStream(filename)
           stream.pipe(ws)
 
           stream.on('error', err => reject(err))
 
-          stream.on('end', () => resolve(filename))
+          stream.on('end', () => debug('Downloaded:', entry.name))
+        })
+
+        rs.on('error', err => reject(err))
+
+        rs.on('end', () => {
+          debug('Download ended!')
+          resolve()
         })
       })
     })
