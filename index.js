@@ -8,7 +8,7 @@ const swarmDefaults = require('datland-swarm-defaults')()
 const swarm = require('discovery-swarm')(swarmDefaults)
 
 module.exports = db => {
-  if (!db) db = level('./hypershare.db')
+  if (!db) db = level(`${__dirname}/hypershare.db`)
 
   const drive = hyperdrive(db)
 
