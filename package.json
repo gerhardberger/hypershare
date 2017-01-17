@@ -7,7 +7,7 @@
     "hypershare": "bin/cmd.js"
   },
   "scripts": {
-    "test": "ava test/test.js"
+    "test": "ava test/*-test.js -s"
   },
   "repository": "https://github.com/gerhardberger/hypershare.git",
   "author": "@gellerthegyi",

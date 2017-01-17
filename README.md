@@ -1,5 +1,7 @@
 # hypershare
 
+[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) [![Build Status](https://travis-ci.org/gerhardberger/hypershare.svg?branch=master)](https://travis-ci.org/gerhardberger/hypershare) [![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/hypershare)
+
 Easily share files peer-to-peer with [hyperdrive](https://github.com/mafintosh/hyperdrive)
 from code or command line.
 
