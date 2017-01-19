@@ -67,6 +67,7 @@ module.exports = db => {
           resolve()
         })
       })
-    })
+    }),
+    drive
   }
 }
