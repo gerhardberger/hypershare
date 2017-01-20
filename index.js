@@ -22,7 +22,9 @@ module.exports = class Hypershare extends EventEmitter {
       debug('New connection!')
 
       for (let link of Object.keys(this.archives)) {
-        this.archives[link].connect(connection)
+        if (this.archives[link]) {
+          this.archives[link].connect(connection)
+        }
       }
     })
   }
@@ -83,6 +85,7 @@ module.exports = class Hypershare extends EventEmitter {
       swarm.join(new Buffer(link, 'hex'))
 
       let files = []
+      let downloadCount = 0
       this.archives[link] = {
         archive,
         connect: connection => {
@@ -105,19 +108,34 @@ module.exports = class Hypershare extends EventEmitter {
 
             stream.on('error', err => {
               debug(`Error downloading ${entry.name}`, err)
+              downloadCount++
+              if (downloadCount >= files.length) {
+                downloadCount = 0
+                debug('Download ended!', files)
+
+                this.close(link)
+                  .then(() => resolve(files))
+                  .catch(err => reject(err))
+              }
             })
 
-            stream.on('end', () => debug('Downloaded:', entry.name))
+            stream.on('end', () => {
+              debug('Downloaded:', entry.name)
+              downloadCount++
+              if (downloadCount >= files.length) {
+                downloadCount = 0
+                debug('Download ended!', files)
+
+                this.close(link)
+                  .then(() => resolve(files))
+                  .catch(err => reject(err))
+              }
+            })
           })
 
           rs.on('error', err => reject(err))
 
-          rs.on('end', () => {
-            debug('Download ended!', files)
-            this.close(link)
-              .then(() => resolve(files))
-              .catch(err => reject(err))
-          })
+          rs.on('end', () => debug('Fetching ended!'))
         }
       }
     })
