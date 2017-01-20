@@ -1,6 +1,6 @@
 {
   "name": "hypershare",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Share files easily with hyperdrive.",
   "main": "index.js",
   "bin": {
@@ -26,7 +26,6 @@
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "path-exists": "^3.0.0",
-    "pify": "^2.3.0",
     "random-access-file": "^1.4.0"
   }
 }
