@@ -13,15 +13,16 @@ $ hypershare --link fb2a7568e70b281fd08baa13a574c256485f9f7
 
 Code:
 ``` js
-const hypershare = require('hypershare')
-const { share, download } = hypershare()
+const Hypershare = require('hypershare')
+const hs = new Hypershare()
 
 // share a file
-const link = share('foo.txt')
-console.log(`Your hyperdrive link: ${link}`)
+hs.share('foo.txt').then(link => {
+  console.log(`Your hyperdrive link: ${link}`)
+})
 
 // download files
-download(link, 'downloads')
+hs.download(link, 'downloads')
   .then(() => console.log('File downloaded!'))
   .catch(err => console.error(err))
 ```
@@ -47,16 +48,15 @@ current working directory.
 
 ### code
 
-#### `hs = hypershare([db])`
+#### `hs = new Hypershare([db])`
 
-Returns an object with two functions, `share` and `download`. `db` is an optional
-`level` instance.
+Returns a new instance, where `db` is an optional `level` instance.
 
-#### `link = hs.share(files)`
+#### `p = hs.share(files)`
 
 Takes a single file path (`String`) or an array of file paths and creates a
-`hyperdrive` archive from them and returns the archive's link, with what others
-can download the files.
+`hyperdrive` archive from them and returns a promise that will give the
+archive's link, with what others can download the files.
 
 #### `p = hs.download(link, destination)`
 

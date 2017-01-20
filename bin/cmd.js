@@ -5,7 +5,9 @@ const path = require('path')
 const pathExists = require('path-exists')
 const mkdirp = require('mkdirp')
 
-const { share, download } = require('../')()
+const Hypershare = require('../')
+
+const hs = new Hypershare()
 
 const file = argv.f || argv.file
 const link = argv.l || argv.link
@@ -19,18 +21,16 @@ if (file) {
         resolve()
       })
     })))
-    .then(() => {
-      const link = share(files)
-      console.log(`Your hyperdrive link: ${link}`)
-    })
+    .then(() => hs.share(files))
+    .then(link => console.log(`Your hyperdrive link: ${link}`))
     .catch(err => console.error(err))
 } else if (link) {
   const destination = path.join(process.cwd(), 'downloads')
   mkdirp(destination, err => {
     if (err) return console.error(err)
 
-    download(link, destination)
-      .then(filename => console.log(`Files downloaded to ${destination}`))
+    hs.download(link, destination)
+      .then(filename => console.log(`Files downloaded to ${filename}`))
       .catch(err => console.error(err))
   })
 } else {

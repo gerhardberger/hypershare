@@ -1,7 +1,8 @@
 const level = require('level')
+const Hypershare = require('../')
 
-const { share } = require('../')(level('./hypershare-test-1.db'))
+const hs = new Hypershare(level('./hypershare-test-1.db'))
 
-const link = share(`${__dirname}/foo.txt`)
-
-console.log(`Your hyperdrive link: ${link}`)
+hs.share(`${__dirname}/foo.txt`).then(link => {
+  console.log(`Your hyperdrive link: ${link}`)
+}).catch(err => console.log(err))
