@@ -3,7 +3,8 @@
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) [![Build Status](https://travis-ci.org/gerhardberger/hypershare.svg?branch=master)](https://travis-ci.org/gerhardberger/hypershare) [![npm version](https://badge.fury.io/js/hypershare.svg)](https://badge.fury.io/js/hypershare)
 
 Easily share files peer-to-peer with [hyperdrive](https://github.com/mafintosh/hyperdrive)
-from code or command line.
+from code or command line. For a desktop version of this module, check out the
+[**Hypershare app**](https://github.com/gerhardberger/hypershare-desktop).
 
 CLI:
 ```
