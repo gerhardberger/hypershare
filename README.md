@@ -50,7 +50,8 @@ current working directory.
 
 #### `hs = new Hypershare([db])`
 
-Returns a new instance, where `db` is an optional `level` instance.
+Returns a new instance, where `db` is an optional `level` instance. By default
+it will be a `memdb` instance.
 
 #### `p = hs.share(files)`
 
