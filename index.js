@@ -4,7 +4,7 @@ const path = require('path')
 const EventEmitter = require('events')
 const hyperdrive = require('hyperdrive')
 const raf = require('random-access-file')
-const level = require('level')
+const memdb = require('memdb')
 const swarmDefaults = require('datland-swarm-defaults')()
 const swarm = require('discovery-swarm')(swarmDefaults)
 
@@ -12,7 +12,7 @@ module.exports = class Hypershare extends EventEmitter {
   constructor (db) {
     super()
 
-    this.db = db || level(`${__dirname}/hypershare.db`)
+    this.db = db || memdb()
     this.drive = hyperdrive(this.db)
     this.archives = {}
 

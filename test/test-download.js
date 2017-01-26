@@ -1,8 +1,7 @@
 const argv = require('minimist')(process.argv.slice(2))
-const level = require('level')
 const Hypershare = require('../')
 
-const hs2 = new Hypershare(level(`${__dirname}/hypershare-test-2.db`))
+const hs2 = new Hypershare()
 
 const link = argv._[0]
 
